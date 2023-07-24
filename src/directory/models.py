@@ -1,31 +1,39 @@
 from django.db import models
 
+
 # ------------------------------------------------------------------------------
 class Member(models.Model):
     household = models.ForeignKey('Household', null=True, on_delete=models.SET_NULL)
     name = models.TextField()
-    number = models.TextField(null=True)
+    gender = models.TextField()
+    birth_date = models.TextField()
+    address = models.TextField()
+    phone_number = models.TextField(null=True)
     email = models.TextField(null=True)
-    moved_out = models.BooleanField(default=False) # manually marked, (show these members on separate page from the rest)
-    missing_record = models.BooleanField(default=False) # when new csv from lds.org doesn't have this member on it
+    # manually marked, (show these members on separate page from the rest)
+    moved_out = models.BooleanField(default=False)
+    # when new csv from lds.org doesn't have this member on it
+    absent_record = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return str(self.name + f" [{self.gender}]")
+
 
 # ------------------------------------------------------------------------------
 class Household(models.Model):
     TYPE_CHOICES = [
-        ('MEN', 'Men'),
-        ('WOMEN', 'Women'),
+        ('F', 'F'),
+        ('M', 'M')
     ]
-    type = models.TextField(choices=TYPE_CHOICES, null=True)
+    gender = models.TextField(choices=TYPE_CHOICES, null=True)
     address = models.TextField()
 
     def __str__(self):
-        return str(self.address) + " --- " + str(self.type)
+        return f"[{self.gender}] {self.address}"
 
     def get_members(self):
         return Member.objects.filter(household=self)
+
 
 # ------------------------------------------------------------------------------
 # SOME MODEL STATS
