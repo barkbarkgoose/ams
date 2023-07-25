@@ -1,6 +1,12 @@
 from django.contrib import admin
-from directory import models as dmods
+from directory.models import Member, Household
 
-# Register your models here.
-admin.site.register(dmods.Household)
-admin.site.register(dmods.Member)
+
+@admin.register(Member)
+class MemberAdmin(admin.ModelAdmin):
+    list_per_page = 1000
+
+
+@admin.register(Household)
+class MemberAdmin(admin.ModelAdmin):
+    list_per_page = 1000
