@@ -1,4 +1,6 @@
 from django.contrib import admin
-from ministering import models as minmods
+# from ministering.models import BrotherComp, SisterComp
+from ministering.models import Assignment
 
-admin.site.register(minmods.Assignment)
+admin.site.register(Assignment)
+# admin.site.register(SisterComp)
