@@ -1,15 +1,19 @@
 from django.db import models
 
+GENDER_CHOICES = [
+    ('F', 'F'),
+    ('M', 'M')
+]
 
-# ------------------------------------------------------------------------------
+
 class Member(models.Model):
-    household = models.ForeignKey('Household', null=True, on_delete=models.SET_NULL)
+    household = models.ForeignKey('Household', null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=100)
-    gender = models.CharField(max_length=1)
-    birth_date = models.CharField(max_length=10)
-    address = models.TextField()
-    phone_number = models.TextField(null=True)
-    email = models.CharField(null=True, max_length=100)
+    gender = models.TextField(choices=GENDER_CHOICES)
+    birth_date = models.CharField(max_length=14)
+    address = models.TextField(null=True, blank=True)
+    phone_number = models.TextField(null=True, blank=True)
+    email = models.CharField(null=True, blank=True, max_length=100)
     # manually marked, (show these members on separate page from the rest)
     moved_out = models.BooleanField(default=False)
     # when new csv from lds.org doesn't have this member on it
@@ -38,13 +42,8 @@ class Member(models.Model):
         return str(self.name + f" [{self.gender}]")
 
 
-# ------------------------------------------------------------------------------
 class Household(models.Model):
-    TYPE_CHOICES = [
-        ('F', 'F'),
-        ('M', 'M')
-    ]
-    gender = models.TextField(choices=TYPE_CHOICES, null=True)
+    gender = models.TextField(choices=GENDER_CHOICES, null=True)
     address = models.TextField()
 
     def __str__(self):
@@ -52,10 +51,3 @@ class Household(models.Model):
 
     def get_members(self):
         return Member.objects.filter(household=self)
-
-
-# ------------------------------------------------------------------------------
-# SOME MODEL STATS
-# HOMELESS = Member.objects.filter(household=None)
-
-# ------------------------------------------------------------------------------
