@@ -1,10 +1,5 @@
 from django.contrib import admin
-from ministering.models import Assignment, BrotherComp, SisterComp
-
-
-@admin.register(Assignment)
-class MemberAdmin(admin.ModelAdmin):
-    list_per_page = 1000
+from ministering.models import BrotherComp, SisterComp
 
 
 @admin.register(BrotherComp)

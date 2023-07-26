@@ -14,10 +14,12 @@ class Member(models.Model):
     address = models.TextField(null=True, blank=True)
     phone_number = models.TextField(null=True, blank=True)
     email = models.CharField(null=True, blank=True, max_length=100)
-    # manually marked, (show these members on separate page from the rest)
+    # manually marked, (show moved_out members on separate page from the rest)
     moved_out = models.BooleanField(default=False)
     # when new csv from lds.org doesn't have this member on it
     absent_record = models.BooleanField(default=False)
+    do_not_minister = models.BooleanField(default=False)
+    do_not_assign_comp = models.BooleanField(default=False)
 
     brother_comp = models.ForeignKey(
         'ministering.BrotherComp',
